@@ -116,15 +116,16 @@ angular.module('ngCsv.services').
           csvContent += index < arrData.length ? dataString + EOL : dataString;
         });
 
-        if(window.navigator.msSaveOrOpenBlob) {
-          csv = csvContent;
-        }else{
+        if(!window.navigator.msSaveOrOpenBlob) {
           csv = DATA_URI_PREFIX;
-          if (options.addByteOrderMarker){
-              csv += BOM;
           }
-          csv += csvContent;
+        else{
+          csv = ''
         }
+        if (options.addByteOrderMarker){
+          csv += BOM;
+        }
+        csv += csvContent;
         def.resolve(csv);
       });
 
